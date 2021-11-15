@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: hello-python-app
+      IMAGE_NAME: hello-app-python
       PROJECT_ID: tuk-scit-project1
 
     strategy:
