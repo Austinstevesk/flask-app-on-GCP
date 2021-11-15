@@ -1,0 +1,45 @@
+name: Build and Push Images to GCP
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build-push-gcr:
+    name: Build and push to GCR
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: hello-python-app
+      PROJECT_ID: tuk-scit-project1
+
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+          
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+          project_id: ${{ env.PROJECT_ID }}
+          export_default_credential: true
+
+      - name: Build Docker Image
+        run: docker build -t $IMAGE_NAME:latest .
+      
+      - name: Configure Docker Client
+        run: |-
+          gcloud auth configure-docker --queit
+
+      - name: Push Docker Image to Google Container Registry (GCR)
+        env:
+          GIT_TAG: v0.1.0
+        run: |-
+          docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+          docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+          docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
