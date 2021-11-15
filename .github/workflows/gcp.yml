@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-push-gcr:
-    name: Build and push to GCR
+    name: Build and push to Artifact Registry
     runs-on: ubuntu-latest
 
     env:
