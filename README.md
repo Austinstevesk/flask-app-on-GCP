@@ -32,7 +32,7 @@
 # On github  
 - Create a repo and name it anywhat you want  
 - Configure and link it with your local directory using "git remote add origin"   
-- Create a secret on setting and paste the content of the Key you downloaded earlier  
+- Create a secret on settings, ```SERVICE_ACCOUNT_KEY```  and paste the content of the Key you downloaded earlier in the value section  
 - Push the code from you local machine  
   
 # Deployment  
