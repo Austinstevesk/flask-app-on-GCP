@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: hello-app-python
+      IMAGE_NAME: hello-app
       PROJECT_ID: tuk-scit-project1
 
     strategy:
@@ -39,8 +39,9 @@ jobs:
       - name: Push Docker Image to Google Container Registry (GCR)
         env:
           GIT_TAG: v0.1.0
+          IMAGE_REPO: hello-app-python
         run: |-
-          docker tag $IMAGE_NAME:latest us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME:latest
-          docker tag $IMAGE_NAME:latest us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
-          docker push us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME:latest
-          docker push us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+          docker tag $IMAGE_NAME:latest us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE_NAME:$GIT_TAG
+          docker push us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE_NAME:latest
+          docker push us-central1-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE_NAME:$GIT_TAG
